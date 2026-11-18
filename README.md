@@ -68,3 +68,15 @@ open outputs/transport_replay/compare.html
 - `outputs/transport_replay/` の `compare.html`、`compare.mp4`、`trajectories.svg` で同じ移動時刻の Nd=1・2 を比較できます。形式2の全履歴ログはこの2条件だけに保存しました。`selection.json` に選定方法、`scenes.md` に説明用の時刻とIDがあります。
 
 外場は h=0, 0.35, 0.70, 1.05 に固定し、既存の実現乱れ・初期意思・初期位置を全条件で共有しました。15条件の既存集計を再利用し、新規45条件を計算しました。最大の累積退出差は seed 102・h=0 の16人で、t=88に初めて最大になりました。seed 101・h=0.70 では t=17 の1人差があり、t=200 では全 Nd が23人で一致しました。h=0.35 と1.05は全3標本で退出曲線が一致しました。
+
+## 意思周期からの最終退出人数の予測
+
+```sh
+python3 -B -m unittest -v
+python3 -B phase_prediction.py priority
+python3 -B phase_prediction.py existing
+python3 -B phase_prediction.py new
+python3 -B phase_figure.py
+```
+
+`outputs/phase_prediction/` に優先15条件、既存60条件、新規160条件の比較CSV、導出と日本語結果メモ `results.md`、発表図 `seed_102_phases_and_arrivals.svg` を出力します。図には Matplotlib を使用します。固定ID別の正位相、負だけを読むID、周期開始時の配置、独立計算の終了理由は `checkpoints/seed_*.json` にあります。同じコマンドを再実行すると保存済みの条件を使い、未済条件から続けます。検証の上限は意思探索4,096更新、移動の独立計算4,096試行で、200試行時点の値と確定した最終値は別列です。

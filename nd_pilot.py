@@ -49,20 +49,26 @@ def observations(log, frames):
     }, trials, states
 
 
+def make_sample(seed):
+    ids = tuple(f"P{i:02d}" for i in range(1, M + 1))
+    disorder = Disorder(0.45, 0.25, 0, 0.45, 0.7, seed)
+    ring = SocialRing.sample(ids, RADIUS, SIGMA, disorder)
+    init_rng = Random(seed + 1000)
+    positions = sorted(init_rng.sample(range(1, INITIAL_SPAN + 1), M))
+    sample = {"seed": seed, "initial_seed": seed + 1000, "social_ring": asdict(ring),
+              "positions": positions, "s": tuple(init_rng.choice((-1, 1)) for _ in ids)}
+    return sample, ring
+
+
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    ids = tuple(f"P{i:02d}" for i in range(1, M + 1))
     corridor = Corridor(LENGTH, "absorbing")
     samples, rows, results = [], [], []
     for seed in SEEDS:
-        disorder = Disorder(0.45, 0.25, 0, 0.45, 0.7, seed)
-        ring = SocialRing.sample(ids, RADIUS, SIGMA, disorder)
-        init_rng = Random(seed + 1000)
-        positions = sorted(init_rng.sample(range(1, INITIAL_SPAN + 1), M))
-        initial = tuple(Person(pid, x) for pid, x in zip(ids, positions))
-        initial_s = tuple(init_rng.choice((-1, 1)) for _ in ids)
-        samples.append({"seed": seed, "initial_seed": seed + 1000,
-                        "social_ring": asdict(ring), "positions": positions, "s": initial_s})
+        sample, ring = make_sample(seed)
+        initial = tuple(Person(pid, x) for pid, x in zip(ring.ids, sample["positions"]))
+        initial_s = sample["s"]
+        samples.append(sample)
         previous_states = []
         for nd in NDS:
             log, frames = run(f"pilot-{seed}-nd{nd}", ring, corridor, initial, initial_s,

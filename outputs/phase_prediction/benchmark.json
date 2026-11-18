@@ -1,0 +1,7 @@
+{
+  "seed": 104,
+  "conditions": 20,
+  "wall_seconds": 0.09527595806866884,
+  "checkpoint_bytes": 53671,
+  "note": "Elapsed time includes generation, prediction, verification and checkpoint writes."
+}

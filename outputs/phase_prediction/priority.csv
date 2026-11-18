@@ -1,0 +1,16 @@
+run_id,seed,h,nd,cycle_start_n,period_n,first_periodic_t,first_periodic_n,first_phase,phase_count,phases,prefix_exits,blocker_id,blocker_cell,predicted_final,verified_final,arrived_t200,certificate,certificate_t,repeat_from_t,status,first_exit_t,first_exit_ids
+field-101-h0.70-nd1,101,0.7,1,3,1,3,3,0,1,0,0,P01,7,23,23,23,joint_repeat,65,64,match,18,P24
+field-101-h0.70-nd2,101,0.7,2,3,1,2,4,0,1,0,0,P01,7,23,23,23,joint_repeat,65,64,match,17,P24
+field-101-h0.70-nd3,101,0.7,3,3,1,1,3,0,1,0,0,P01,7,23,23,23,joint_repeat,65,64,match,17,P24
+field-101-h0.70-nd4,101,0.7,4,3,1,1,4,0,1,0,0,P01,7,23,23,23,joint_repeat,65,64,match,17,P24
+field-101-h0.70-nd8,101,0.7,8,3,1,1,8,0,1,0,0,P01,7,23,23,23,joint_repeat,65,64,match,17,P24
+field-102-h0.00-nd1,102,0.0,1,3,2,3,3,0,2,0 1,0,P08,22,16,16,16,joint_repeat,90,88,match,35,P24
+field-102-h0.00-nd2,102,0.0,2,3,2,2,4,1,1,1,0,P24,47,0,0,0,joint_repeat,10,9,match,,
+field-102-h0.00-nd3,102,0.0,3,3,2,1,3,0,2,0 1,0,P08,22,16,16,16,joint_repeat,90,88,match,35,P24
+field-102-h0.00-nd4,102,0.0,4,3,2,1,4,1,1,1,0,P24,47,0,0,0,joint_repeat,10,9,match,,
+field-102-h0.00-nd8,102,0.0,8,3,2,1,8,1,1,1,0,P24,47,0,0,0,joint_repeat,10,9,match,,
+field-102-h0.35-nd1,102,0.35,1,2,4,2,2,0,4,0 1 2 3,0,P08,22,16,16,16,joint_repeat,52,48,match,18,P24
+field-102-h0.35-nd2,102,0.35,2,2,4,1,2,0,2,0 2,0,P08,22,16,16,16,joint_repeat,50,48,match,18,P24
+field-102-h0.35-nd3,102,0.35,3,2,4,1,3,1,4,1 0 3 2,0,P08,22,16,16,16,joint_repeat,52,48,match,18,P24
+field-102-h0.35-nd4,102,0.35,4,2,4,1,4,2,1,2,0,P08,22,16,16,16,joint_repeat,49,48,match,18,P24
+field-102-h0.35-nd8,102,0.35,8,2,4,1,8,2,1,2,0,P08,22,16,16,16,joint_repeat,49,48,match,18,P24

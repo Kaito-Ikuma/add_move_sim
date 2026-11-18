@@ -1,0 +1,33 @@
+{
+  "counts": {
+    "match": 160,
+    "mismatch": 0,
+    "undetermined": 0
+  },
+  "paired_sensitivity": [
+    {
+      "h": 0.0,
+      "changed": 0,
+      "complete_seeds": 8,
+      "total_seeds": 8
+    },
+    {
+      "h": 0.35,
+      "changed": 1,
+      "complete_seeds": 8,
+      "total_seeds": 8
+    },
+    {
+      "h": 0.7,
+      "changed": 0,
+      "complete_seeds": 8,
+      "total_seeds": 8
+    },
+    {
+      "h": 1.05,
+      "changed": 0,
+      "complete_seeds": 8,
+      "total_seeds": 8
+    }
+  ]
+}
