@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>同期移動と固定乱れの意思決定</title>
+<style>
+:root{font:18px system-ui,sans-serif;color:#142d39;background:#eef4f4}
+body{margin:32px auto;max-width:1050px;padding:0 20px}
+header{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 22px}
+h1{font-size:clamp(24px,4vw,38px);margin:0}
+section{margin:18px 0;background:white;border-radius:14px;padding:18px}
+h2{font-size:18px;margin:0 0 12px}
+.row{display:grid;grid-auto-columns:minmax(52px,1fr);grid-auto-flow:column;gap:8px;overflow-x:auto}
+.slot{padding:12px 3px;border-radius:8px;text-align:center;background:#e6eff0;white-space:pre-line}
+.plus,.occupied{color:#104a55;background:#ccecea}.minus{color:#752c1f;background:#fbe1d9}
+.out{outline:2px dashed #657783;outline-offset:-3px}
+.exit{background:#ffedb9}
+small{display:block;color:#425782;margin-top:8px;line-height:1.5}
+nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+button,input{font:inherit}button{padding:6px 12px}input[type=number]{width:4em}input[type=range]{width:100%}
+output{font-weight:bold}
+</style>
+<body>
+<header><h1>同期移動と固定乱れの意思決定</h1><code id="run"></code></header>
+<section><h2>社会層 · 固定ID順</h2><div class="row" id="ring"></div>
+<small>＋／− は意思。破線枠は通路を退出した人で、意思更新と参照には参加し続けます。</small></section>
+<section><h2>通路 · 右端は高台側出口</h2><div class="row" id="road"></div></section>
+<section><h2 id="phase"></h2><div id="stats"></div>
+<small>三分類は移動試行直前の在系者を集計。累積退出は試行直後の人数です。</small></section>
+<nav aria-label="再生操作">
+<button id="play">再生</button><button id="pause">一時停止</button><button id="next">1コマ進む</button>
+<label>意思更新 n <input id="seekN" type="number" min="0" value="0"></label>
+<label>移動試行 t <input id="seekT" type="number" min="0" value="0"></label>
+<output id="time"></output>
+<input id="slider" type="range" aria-label="フレーム番号" min="0" value="0">
+</nav>
+<script type="application/json" id="data">__REPLAY_DATA__</script>
+<script>
+"use strict";
+const get = id => document.getElementById(id);
+const {run_id, ids, length, frames} = JSON.parse(get("data").textContent);
+get("run").textContent = run_id;
+const last = frames.length - 1;
+get("slider").max = last;
+get("seekN").max = frames[last].n;
+get("seekT").max = frames[last].t;
+let index = 0, timer = null;
+function slots(container, values) {
+  get(container).replaceChildren(...values.map(([label, style]) => {
+    const item = document.createElement("div");
+    item.className = "slot " + style;
+    item.textContent = label;
+    return item;
+  }));
+}
+function draw(at) {
+  index = Math.min(last, Math.max(0, at));
+  const f = frames[index];
+  slots("ring", ids.map((id, i) => {
+    const plus = f.intentions[i] === 1;
+    const outside = !Object.hasOwn(f.positions, id);
+    return [id + " " + (plus ? "＋" : "−") + (outside ? "\n退出済" : ""),
+      (plus ? "plus" : "minus") + (outside ? " out" : "")];
+  }));
+  const byCell = new Map(Object.entries(f.positions).map(([id, pos]) => [pos, id]));
+  const cells = Array.from({length}, (_, i) => {
+    const id = byCell.get(i + 1);
+    return [(i + 1) + "\n" + (id ?? "·"), id ? "occupied" : ""];
+  });
+  cells.push([f.exit_ids.join("・") || "高台\n出口", "exit"]);
+  slots("road", cells);
+  get("phase").textContent = {
+    initial: "初期配置", decision: "意思更新 · 位置固定", movement: "移動試行 · 位置更新"
+  }[f.phase];
+  const c = f.counts;
+  get("stats").textContent = (c
+    ? `意思停止 ${c.intention_stop} ｜ 排他停止 ${c.exclusion_stop} ｜ 実移動 ${c.move}`
+    : "意思停止 — ｜ 排他停止 — ｜ 実移動 —") + ` ｜ 累積退出 ${f.cumulative_exits}`;
+  get("time").textContent = `n=${f.n} / t=${f.t}`;
+  get("slider").value = index;
+  get("seekN").value = f.n;
+  get("seekT").value = f.t;
+}
+function pause() {
+  clearInterval(timer);
+  timer = null;
+}
+get("play").onclick = () => {
+  if (timer !== null) return;
+  if (index === last) draw(0);
+  timer = setInterval(() => {
+    draw(index + 1);
+    if (index === last) pause();
+  }, 520);
+};
+get("pause").onclick = pause;
+get("next").onclick = () => { pause(); draw(index + 1); };
+get("slider").oninput = e => { pause(); draw(Number(e.target.value)); };
+get("seekN").onchange = e => {
+  pause();
+  const i = frames.findIndex(f => f.n === Number(e.target.value));
+  draw(i < 0 ? index : i);
+};
+get("seekT").onchange = e => {
+  pause();
+  const i = frames.findIndex(f => f.t === Number(e.target.value) && f.phase !== "decision");
+  draw(i < 0 ? index : i);
+};
+draw(0);
+</script>
+</body></html>

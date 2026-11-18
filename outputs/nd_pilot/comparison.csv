@@ -1,0 +1,16 @@
+seed,run_id,nd,dt_decision_s,t90,t_all,trials_observed,unreached,fixed_verified_n,end_reason
+101,pilot-101-nd1,1,1.0,,,200,24,3,observation_limit
+101,pilot-101-nd2,2,0.5,,,200,24,3,observation_limit
+101,pilot-101-nd3,3,0.3333333333333333,,,200,24,3,observation_limit
+101,pilot-101-nd4,4,0.25,,,200,24,3,observation_limit
+101,pilot-101-nd8,8,0.125,,,200,24,3,observation_limit
+102,pilot-102-nd1,1,1.0,,,200,8,,observation_limit
+102,pilot-102-nd2,2,0.5,,,200,8,,observation_limit
+102,pilot-102-nd3,3,0.3333333333333333,,,200,8,,observation_limit
+102,pilot-102-nd4,4,0.25,,,200,8,,observation_limit
+102,pilot-102-nd8,8,0.125,,,200,8,,observation_limit
+103,pilot-103-nd1,1,1.0,,,200,24,6,observation_limit
+103,pilot-103-nd2,2,0.5,,,200,24,6,observation_limit
+103,pilot-103-nd3,3,0.3333333333333333,,,200,24,6,observation_limit
+103,pilot-103-nd4,4,0.25,,,200,24,6,observation_limit
+103,pilot-103-nd8,8,0.125,,,200,24,6,observation_limit
