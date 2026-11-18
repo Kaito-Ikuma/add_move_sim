@@ -1,0 +1,237 @@
+{
+  "format_version": 1,
+  "settings": {
+    "length": 5,
+    "boundary": "absorbing",
+    "intention_source": "検算用に外部から指定した意思列"
+  },
+  "initial": [
+    {
+      "id": "A",
+      "position": 2,
+      "active": true
+    },
+    {
+      "id": "B",
+      "position": 4,
+      "active": true
+    },
+    {
+      "id": "C",
+      "position": 5,
+      "active": true
+    }
+  ],
+  "trials": [
+    {
+      "time": 1,
+      "people": [
+        {
+          "id": "A",
+          "s": -1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 2,
+          "new_position": 2,
+          "reason": "intention_stop",
+          "exited": false
+        },
+        {
+          "id": "B",
+          "s": 1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 4,
+          "new_position": 4,
+          "reason": "exclusion_stop",
+          "exited": false
+        },
+        {
+          "id": "C",
+          "s": 1,
+          "active_before": true,
+          "active_after": false,
+          "old_position": 5,
+          "new_position": 6,
+          "reason": "move",
+          "exited": true
+        }
+      ]
+    },
+    {
+      "time": 2,
+      "people": [
+        {
+          "id": "A",
+          "s": 1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 2,
+          "new_position": 3,
+          "reason": "move",
+          "exited": false
+        },
+        {
+          "id": "B",
+          "s": 1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 4,
+          "new_position": 5,
+          "reason": "move",
+          "exited": false
+        },
+        {
+          "id": "C",
+          "s": -1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        }
+      ]
+    },
+    {
+      "time": 3,
+      "people": [
+        {
+          "id": "A",
+          "s": 1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 3,
+          "new_position": 4,
+          "reason": "move",
+          "exited": false
+        },
+        {
+          "id": "B",
+          "s": -1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 5,
+          "new_position": 5,
+          "reason": "intention_stop",
+          "exited": false
+        },
+        {
+          "id": "C",
+          "s": 1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        }
+      ]
+    },
+    {
+      "time": 4,
+      "people": [
+        {
+          "id": "A",
+          "s": 1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 4,
+          "new_position": 4,
+          "reason": "exclusion_stop",
+          "exited": false
+        },
+        {
+          "id": "B",
+          "s": 1,
+          "active_before": true,
+          "active_after": false,
+          "old_position": 5,
+          "new_position": 6,
+          "reason": "move",
+          "exited": true
+        },
+        {
+          "id": "C",
+          "s": -1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        }
+      ]
+    },
+    {
+      "time": 5,
+      "people": [
+        {
+          "id": "A",
+          "s": 1,
+          "active_before": true,
+          "active_after": true,
+          "old_position": 4,
+          "new_position": 5,
+          "reason": "move",
+          "exited": false
+        },
+        {
+          "id": "B",
+          "s": -1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        },
+        {
+          "id": "C",
+          "s": 1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        }
+      ]
+    },
+    {
+      "time": 6,
+      "people": [
+        {
+          "id": "A",
+          "s": 1,
+          "active_before": true,
+          "active_after": false,
+          "old_position": 5,
+          "new_position": 6,
+          "reason": "move",
+          "exited": true
+        },
+        {
+          "id": "B",
+          "s": 1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        },
+        {
+          "id": "C",
+          "s": -1,
+          "active_before": false,
+          "active_after": false,
+          "old_position": null,
+          "new_position": null,
+          "reason": "outside",
+          "exited": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+# Python のキャッシュとテスト生成物
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ローカルの仮想環境と環境変数ファイル
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# macOS のフォルダ情報
+.DS_Store
