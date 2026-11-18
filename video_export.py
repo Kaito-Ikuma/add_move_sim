@@ -51,15 +51,19 @@ def write_mp4(path, data):
              f"Cumulative exits: {frame['cumulative_exits']}", small)
         return image.tobytes()
 
+    encode_mp4(path, map(render, data["frames"]))
+
+
+def encode_mp4(path, frames, ticks=13):
     command = [
         "ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "rawvideo",
         "-pixel_format", "rgb24", "-video_size", f"{WIDTH}x{HEIGHT}",
-        "-framerate", f"{FPS}/13", "-i", "-", "-vf", f"fps={FPS}",
+        "-framerate", f"{FPS}/{ticks}", "-i", "-", "-vf", f"fps={FPS}",
         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(path),
     ]
     with subprocess.Popen(command, stdin=subprocess.PIPE) as encoder:
-        for frame in data["frames"]:
-            encoder.stdin.write(render(frame))
+        for frame in frames:
+            encoder.stdin.write(frame)
         encoder.stdin.close()
         if encoder.wait():
             raise RuntimeError("ffmpeg could not encode the replay")

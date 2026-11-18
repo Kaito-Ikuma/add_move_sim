@@ -49,3 +49,22 @@ open outputs/demo/replay.html
 M=24、R=4、σ=0.2、初期密度0.5（人口区間48セル）、通路長64セル、吸収境界で、Nd=1,2,3,4,8 を seed 101–103 の3標本で比較しました。外場は一定の h=0.35、セル長は1 m、移動間隔は1 s、意思更新間隔は 1/Nd s としたモデル上の設定です。μ は平均0.45・標準偏差0.25、φ は平均0・標準偏差0.45の独立な正規乱数とし、有向結合の標準偏差 σJ は0.7です。初期化は別の乱数列（seed+1000）で、区間内の24セルを一様に重複なく抽出し、昇順で固定IDに割り当て、各人の意思を等確率で±1に設定しました。同じ標本の全 Nd でこれらを共有し、共通の意思更新番号の履歴が一致することを確認しています。
 
 15本とも200試行まで観測し、90%・全員到達時刻は全条件で欠測（CSV は空欄、JSON は `null`）でした。90%の閾値は22人です。seed 101、102、103 の未到達人数はそれぞれ24、8、24人で、標本内の累積退出曲線は全 Nd で一致しました。三分類の時系列には Nd による違いがありました。一定外場で連続する意思状態が初めて同一になった更新番号 `fixed_verified_n` は seed 101 が3、103が6で、102では観測中に固定点を確認できませんでした。
+
+## 個人軌道の診断と一定外場の対応比較
+
+作業フォルダで次を順に実行します。図の生成には Matplotlib、動画には macOS のフォント、Pillow、FFmpeg を使います。
+
+```sh
+python3 -B -m unittest -v
+python3 -B transport_diagnostics.py
+python3 -B field_comparison.py --benchmark
+python3 -B field_comparison.py
+python3 -B transport_replay.py --mp4
+open outputs/transport_replay/compare.html
+```
+
+- `outputs/transport_diagnostics/` の `results.md` に既存15条件の日本語結果表、`diagnostics.json` に最初の差を生じたID・判定・位置、列先頭の各試行の履歴、意思周期と物理周期、`pilot_102_trajectories.svg` に代表個人軌道図を保存しました。既存の三分類と累積退出は全3,000試行で再現値に一致しました。
+- `outputs/field_comparison/` の `conditions.csv` は60条件の到達時刻・人数・停止人回、`differences_vs_nd1.csv` は全時刻での基準との差、`arrivals_h*.svg` は外場別の3標本の曲線です。`series.json` は試行ごとの集計です。時刻は移動試行番号と秒が同値で、未到達時刻はCSVの空欄です。最初の新条件の実測は `benchmark.json` にあり、計算と集計ログ保存で約0.027秒、集計ログ1,901バイトでした。
+- `outputs/transport_replay/` の `compare.html`、`compare.mp4`、`trajectories.svg` で同じ移動時刻の Nd=1・2 を比較できます。形式2の全履歴ログはこの2条件だけに保存しました。`selection.json` に選定方法、`scenes.md` に説明用の時刻とIDがあります。
+
+外場は h=0, 0.35, 0.70, 1.05 に固定し、既存の実現乱れ・初期意思・初期位置を全条件で共有しました。15条件の既存集計を再利用し、新規45条件を計算しました。最大の累積退出差は seed 102・h=0 の16人で、t=88に初めて最大になりました。seed 101・h=0.70 では t=17 の1人差があり、t=200 では全 Nd が23人で一致しました。h=0.35 と1.05は全3標本で退出曲線が一致しました。

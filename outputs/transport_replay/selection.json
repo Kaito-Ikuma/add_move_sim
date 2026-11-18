@@ -1,0 +1,26 @@
+{
+  "metric": "max_absolute_arrival_difference",
+  "selected": {
+    "seed": "102",
+    "h": "0.0",
+    "nd": "2",
+    "run_id": "field-102-h0.00-nd2",
+    "max_abs_difference": "16",
+    "first_peak_t": "88",
+    "signed_difference_at_first_peak": "-16",
+    "first_difference_t": "35",
+    "end_difference": "-16",
+    "classification_l1": "3178",
+    "social_transient_n": "3",
+    "social_period_n": "2"
+  },
+  "baseline": "field-102-h0.00-nd1",
+  "arrival_tiebreak": [
+    "earliest peak t",
+    "smallest seed",
+    "smallest h",
+    "smallest Nd"
+  ],
+  "classification_l1_definition": "sum over trials and the three classes of absolute count differences",
+  "fallback_tiebreak": "smallest Nd"
+}

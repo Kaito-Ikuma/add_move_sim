@@ -31,22 +31,30 @@ def make_log(path):
     print(f"{log['run_id']}: {len(restored)} frames match; {log['end_reason']}")
 
 
-def export(path, directory):
-    log, frames = replay(path)
+def replay_data(log, frames):
     ids = log["social_ring"]["ids"]
     run_id = log["run_id"]
     exit_ids = {trial["t"]: [p["id"] for p in trial["people"] if p["exited"]]
                 for trial in log["trials"]}
-    data = {
+    return {
         "run_id": run_id, "ids": ids, "length": log["settings"]["length"],
         "frames": [{**asdict(f), "exit_ids": exit_ids[f.t] if f.phase == "movement" else []}
                    for f in frames],
     }
+
+
+def render_html(data):
     payload = json.dumps(data, ensure_ascii=False).replace("<", "\\u003c")
     template = (ROOT / "presentation_template.html").read_text(encoding="utf-8")
-    (directory / "replay.html").write_text(template.replace("__REPLAY_DATA__", payload),
-                                          encoding="utf-8")
+    return template.replace("__REPLAY_DATA__", payload)
+
+
+def export(path, directory):
+    log, frames = replay(path)
+    data = replay_data(log, frames)
+    (directory / "replay.html").write_text(render_html(data), encoding="utf-8")
     movements = [f for f in frames if f.phase == "movement"]
+    ids = data["ids"]
     panels = [
         ("安全到達人数（累積）", len(ids),
          [("累積退出", [(0, 0)] + [(f.t, f.cumulative_exits) for f in movements])]),
@@ -54,7 +62,7 @@ def export(path, directory):
          [(label, [(f.t, f.counts[key]) for f in movements]) for key, label in LABELS.items()]),
     ]
     write_figure(directory / "research.svg", "安全到達と移動の三分類",
-                 f"run_id: {run_id}  /  Nd = {log['settings']['nd']}", panels, movements[-1].t)
+                 f"run_id: {data['run_id']}  /  Nd = {log['settings']['nd']}", panels, movements[-1].t)
     return data
 
 
