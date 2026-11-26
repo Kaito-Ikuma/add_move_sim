@@ -80,3 +80,16 @@ python3 -B phase_figure.py
 ```
 
 `outputs/phase_prediction/` に優先15条件、既存60条件、新規160条件の比較CSV、導出と日本語結果メモ `results.md`、発表図 `seed_102_phases_and_arrivals.svg` を出力します。図には Matplotlib を使用します。固定ID別の正位相、負だけを読むID、周期開始時の配置、独立計算の終了理由は `checkpoints/seed_*.json` にあります。同じコマンドを再実行すると保存済みの条件を使い、未済条件から続けます。検証の上限は意思探索4,096更新、移動の独立計算4,096試行で、200試行時点の値と確定した最終値は別列です。
+
+## P0・P1 密度比較と意思緩和
+
+```sh
+python3 -B -m unittest -v
+python3 -B density_study.py legacy
+python3 -B density_study.py density
+python3 -B density_study.py render
+open outputs/density/compare.html
+python3 -B density_relaxation.py
+```
+
+[仕様対応表](outputs/density/spec.md)、[既存条件の退出時間分解](outputs/density/legacy.md)、[密度比較の結果表](outputs/density/results.md)、[緩和の結果](outputs/density/relaxation/results.md)。初期個人位置・ID別停止人回・退出時刻は `outputs/density/people.csv`、条件別集計は `conditions.csv`。発表例の再生成は `render` のみで実行できる。緩和検算は隣接リポジトリの `シミュレーション/1d_long_range_spinodal/simulations/local_gaussian_closure` と NumPy・SciPy に依存する。

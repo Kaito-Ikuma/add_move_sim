@@ -38,7 +38,8 @@ class CoupledFrame:
 
 
 def run(run_id: str, ring: SocialRing, corridor: Corridor, initial: Sequence[Person],
-        initial_s: Sequence[int], clock: Clock, field_at: Callable[[int], float]):
+        initial_s: Sequence[int], clock: Clock, field_at: Callable[[int], float],
+        *, stop_when_empty: bool = True):
     people, state = tuple(initial), tuple(initial_s)
     if tuple(p.id for p in people) != ring.ids or any(not p.active for p in people):
         raise ValueError("initial roster must match the active social ring in ID order")
@@ -62,7 +63,7 @@ def run(run_id: str, ring: SocialRing, corridor: Corridor, initial: Sequence[Per
         exits = len(ring.ids) - len(positions)
         trials.append({"n": n, "t": t, "people": [asdict(row) for row in step.attempts]})
         frames.append(CoupledFrame(n, t, "movement", state, positions, step.counts, exits))
-        if exits == len(ring.ids):
+        if stop_when_empty and exits == len(ring.ids):
             reason = "all_exited"
             break
     log = {

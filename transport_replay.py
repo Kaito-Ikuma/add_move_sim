@@ -27,7 +27,7 @@ def select_pair(rows):
     return min(eligible, key=lambda r: (-int(r["classification_l1"]), int(r["nd"]))), "stops_l1"
 
 
-def write_html(path, panels, seed, h):
+def write_html(path, panels, seed, h, title="同じ移動時刻で Nd を比較"):
     documents = []
     for data in panels:
         html = render_html(data).replace('</style>', '''
@@ -45,7 +45,7 @@ section{margin:5px 0;padding:8px}
         documents.append(f'<iframe title="{label}" srcdoc="{escape(html, quote=True)}"></iframe>')
     head = f"""<!doctype html>
 <html lang="ja"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>同じ移動時刻で Nd を比較</title>
+<title>{escape(title)}</title>
 <style>
 body{{font:16px system-ui;margin:20px auto;padding:0 16px;max-width:1500px;background:#eef4f4;color:#142d39}}
 h1{{margin:0 0 4px}} p{{margin:8px 0}} button,input{{font:inherit}} output{{font-weight:bold}}
@@ -55,7 +55,7 @@ main{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
 iframe{{width:100%;height:480px;border:1px solid #9cb6bd;border-radius:7px}}
 @media(max-width:850px){{main{{grid-template-columns:1fr}}}}
 </style>
-<h1>同じ移動時刻で Nd を比較</h1>
+<h1>{escape(title)}</h1>
 <p>seed {seed} ｜ h={h:g} ｜ 移動1試行 = 1秒</p>
 <p>固定ID順の社会層では、移動試行に使った意思を表示します。破線は退出済みです。</p>
 <div class="controls"><button id="play">再生</button><button id="pause">一時停止</button>

@@ -1,0 +1,10 @@
+{
+  "seed": 102,
+  "h": 0.7,
+  "nd": 1,
+  "peak_abs_gap": 12,
+  "files": [
+    "density-102-h0.70-nd1-span96.json",
+    "density-102-h0.70-nd1-span32.json"
+  ]
+}
